@@ -1,17 +1,38 @@
-var number = 0;
-function start(){
-    document.getElementById('box').innerHTML = number;
-}
+var http = require('http');
+var fs = require('fs');
+var index = fs.readFileSync('index.html');
 
-function adicionar(){
-    number += 1;
-    document.getElementById('box').innerHTML = number;
-}
+var SerialPort = require("serialport");
+const parsers = SerialPort.parsers;
+const parser = new parsers.Readline({
+    delimiter: '\r\n'
+});
 
-function zerar(){
-    number = 0;
-    document.getElementById('box').innerHTML = number;
-}
-start();
-document.getElementById('botao').addEventListener('click', adicionar);
-document.getElementById('botao2').addEventListener('click', zerar);
+var port = new SerialPort('COM3', {
+    baudRate: 9600,
+    dataBits: 8,
+    parity: 'none',
+    stopBits: 1,
+    flowControl: false
+});
+
+port.pipe(parser);
+// setTimeout(function(){
+//     port.write("1");
+// }, 3000);
+
+var app = http.createServer(function(req, res) {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end(index);
+});
+
+var io = require('socket.io')(app);
+
+io.on('connection', function(socket) {
+    socket.on('lights', function(data) {
+        port.write(data.status);
+        console.log(data);
+    });
+});
+
+app.listen(3000);

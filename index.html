@@ -4,12 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js'></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="box"></div>
-    <div class="button" id="botao">ADICIONAR</div>
-    <div class="button" id="botao2">ZERAR</div>
-    <script src="./script.js"></script>
+    <button class="button" id="botao">LIGAR</div>
+    <button class="button" id="botao2">DESLIGAR</div>
+    <script>
+
+        var socket = io();
+
+        document.getElementById('botao').onclick = function() {
+            socket.emit('lights', {status:"1"});
+        };
+
+        document.getElementById('botao2').onclick = function() {
+            socket.emit('lights', {status:"0"});
+        };
+
+    </script>
 </body>
 </html>
