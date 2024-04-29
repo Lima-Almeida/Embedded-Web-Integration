@@ -1,0 +1,11 @@
+{
+  "name": "embedded-web-integration",
+  "version": "1.0.0",
+  "description": "Project to test communication between embedded systems and a webpage",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mateus deLima Almeida",
+  "license": "MIT"
+}
